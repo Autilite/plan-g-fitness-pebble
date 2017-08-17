@@ -1,0 +1,59 @@
+{
+    "author": "autilite@gmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "plan-g",
+    "pebble": {
+        "displayName": "Plan G: Fitness",
+        "enableMultiJS": false,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/icon_cross.png",
+                    "name": "ICON_CROSS",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon_ellipsis.png",
+                    "name": "ICON_ELLIPSIS",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon_check.png",
+                    "name": "ICON_CHECK",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon_down.png",
+                    "name": "ICON_DOWN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon_up.png",
+                    "name": "ICON_UP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+        ],
+        "uuid": "6a54628b-aac3-44c2-975a-1cfde10e17a2",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}

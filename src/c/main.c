@@ -1,13 +1,14 @@
 #include <pebble.h>
 #include "session_window.h"
+#include "setup_window.h"
 
 void handle_init(void) {
-  session_window_create();
-  window_stack_push(session_window_get_window(), true);
+  setup_window_create();
+  window_stack_push(setup_window_get_window(), true);
 }
 
 void handle_deinit(void) {
-  session_window_destroy();
+  setup_window_create();
 }
 
 int main(void) {

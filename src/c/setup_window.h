@@ -1,7 +1,7 @@
 #pragma once
 
-#define SELECT_EXERCISE "Start a program and select and exercise on your mobile phone"
+#define SELECT_EXERCISE "Start a program and select an exercise on your Android phone"
 
-void select_window_create();
-void select_window_destroy();
-Window *select_window_get_window();
+void setup_window_create();
+void setup_window_destroy();
+Window *setup_window_get_window();

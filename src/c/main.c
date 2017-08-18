@@ -2,6 +2,14 @@
 #include "session_window.h"
 #include "setup_window.h"
 
+#define MIN_REP 0
+#define MAX_REP 50
+#define INCREMENT_REP 1
+
+#define MIN_WEIGHT 0
+#define MAX_WEIGHT 100000
+#define INCREMENT_WEIGHT 250
+
 static Window *active_window;
 static Tuple *id_tuple, *name_tuple, *set_tuple, *rep_tuple, *weight_tuple, *timer_tuple;
 
@@ -10,6 +18,38 @@ char *name;
 int32_t set;
 int32_t rep;
 int32_t weight;
+
+void increase_rep_handler() {
+  int32_t new_rep = rep + INCREMENT_REP;
+  if (new_rep <= MAX_REP) {
+    rep = new_rep;
+    session_window_update_rep(rep);
+  }
+}
+
+void decrease_rep_handler() {
+  int32_t new_rep = rep - INCREMENT_REP;
+  if (new_rep >= MIN_REP) {
+    rep = new_rep;
+    session_window_update_rep(rep);
+  }
+}
+
+void increase_weight_handler() {
+  int32_t new_weight = weight + INCREMENT_WEIGHT;
+  if (new_weight <= MAX_WEIGHT) {
+    weight = new_weight;
+    session_window_update_weight(weight);
+  }
+}
+
+void decrease_weight_handler() {
+  int32_t new_weight = weight - INCREMENT_WEIGHT;
+  if (new_weight >= MIN_WEIGHT) {
+    weight = new_weight;
+    session_window_update_weight(weight);
+  }
+}
 
 static void inbox_received_callback(DictionaryIterator *iter, void *context) {
   // A new message has been successfully received
@@ -22,7 +62,12 @@ static void inbox_received_callback(DictionaryIterator *iter, void *context) {
   
   if (session_window_get_window() == NULL){
     // Create new session window and set active
-    session_window_create();
+    session_window_create((struct SessionClickHandler) {
+      .incr_rep = increase_rep_handler,
+      .decr_rep = decrease_rep_handler,
+      .incr_weight = increase_weight_handler,
+      .decr_weight = decrease_weight_handler
+    });
     active_window = session_window_get_window();
     window_stack_push(active_window, true);
     

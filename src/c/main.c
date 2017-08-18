@@ -19,6 +19,31 @@ int32_t set;
 int32_t rep;
 int32_t weight;
 
+static void send_completed_set_message() {
+  DictionaryIterator *dict;
+
+  AppMessageResult result = app_message_outbox_begin(&dict);
+  if (result == APP_MSG_OK) {
+    // Set the dictionary values
+    dict_write_uint32(dict, MESSAGE_KEY_EXERCISE_ID, id);
+    dict_write_int32(dict, MESSAGE_KEY_EXERCISE_SET, set);
+    dict_write_int32(dict, MESSAGE_KEY_EXERCISE_REP, rep);
+    dict_write_int32(dict, MESSAGE_KEY_EXERCISE_WEIGHT, weight);
+    
+    // Send the message
+    result = app_message_outbox_send();
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the outbox: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox: %d", (int) result);
+  }
+}
+
+void complete_set_handler() {
+  send_completed_set_message();
+}
+
 void increase_rep_handler() {
   int32_t new_rep = rep + INCREMENT_REP;
   if (new_rep <= MAX_REP) {
@@ -66,7 +91,8 @@ static void inbox_received_callback(DictionaryIterator *iter, void *context) {
       .incr_rep = increase_rep_handler,
       .decr_rep = decrease_rep_handler,
       .incr_weight = increase_weight_handler,
-      .decr_weight = decrease_weight_handler
+      .decr_weight = decrease_weight_handler,
+      .complete_set = complete_set_handler
     });
     active_window = session_window_get_window();
     window_stack_push(active_window, true);

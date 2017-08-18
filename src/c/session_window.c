@@ -56,7 +56,6 @@ void session_window_update_weight(int weight) {
 void complete_set_config_provider() {
   window_single_click_subscribe(BUTTON_ID_UP, click_handler.complete_set);
   window_single_click_subscribe(BUTTON_ID_SELECT, setup_select_rep_view);
-  window_single_click_subscribe(BUTTON_ID_DOWN, click_handler.fail_set);
 }
 
 void select_rep_config_provider() {
@@ -92,7 +91,7 @@ void setup_complete_set_view() {
   select_text_layer(NULL);
   action_bar_layer_set_click_config_provider(action_bar, complete_set_config_provider);
   action_bar_layer_set_icon(action_bar, BUTTON_ID_UP, bitmap_icon_check);
-  action_bar_layer_set_icon(action_bar, BUTTON_ID_DOWN, bitmap_icon_dismiss);
+  action_bar_layer_clear_icon(action_bar, BUTTON_ID_DOWN);
   action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, bitmap_icon_more);
 }
 

@@ -8,7 +8,6 @@
 #define SESSIONCLICKHANDLER_HEADER
 struct SessionClickHandler {
     ClickHandler complete_set;
-    ClickHandler fail_set;
     ClickHandler incr_rep;
     ClickHandler decr_rep;
     ClickHandler incr_weight;

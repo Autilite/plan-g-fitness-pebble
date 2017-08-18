@@ -6,7 +6,15 @@
     "pebble": {
         "displayName": "Plan G: Fitness",
         "enableMultiJS": false,
-        "messageKeys": [],
+        "messageKeys": [
+            "EXERCISE_ID",
+            "EXERCISE_NAME",
+            "EXERCISE_SET",
+            "EXERCISE_REP",
+            "EXERCISE_WEIGHT",
+            "EXERCISE_REST_TIMER",
+            "REQUEST_DATA"
+        ],
         "projectType": "native",
         "resources": {
             "media": [

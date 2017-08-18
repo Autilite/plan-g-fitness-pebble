@@ -11,3 +11,5 @@ Window *session_window_get_window();
 void setup_select_weight_view();
 void setup_select_rep_view();
 void setup_complete_set_view();
+
+void session_window_update_view(char* name, int set, int rep, int weight);

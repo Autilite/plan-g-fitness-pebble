@@ -18,6 +18,23 @@ void select_text_layer(TextLayer *text_layer){
   }
 }
 
+void session_window_update_view(char* name, int set, int rep, int weight) {
+  static char set_string[12];
+  snprintf(set_string, sizeof(set_string), "Set %d", set);
+  
+  static char rep_string[14];
+  snprintf(rep_string, sizeof(rep_string), "Reps: %d", rep);
+  
+  // TODO print weight with 2 point decimal
+  static char weight_string[15];
+  snprintf(weight_string, sizeof(weight_string), "Weight: %d", weight);
+  
+  text_layer_set_text(name_text_layer, name);
+  text_layer_set_text(set_text_layer, set_string);
+  text_layer_set_text(rep_text_layer, rep_string);
+  text_layer_set_text(weight_text_layer, weight_string);
+}
+
 void complete_set_config_provider() {
   window_single_click_subscribe(BUTTON_ID_SELECT, setup_select_rep_view);
 }
@@ -45,6 +62,7 @@ void setup_select_rep_view() {
   action_bar_layer_set_icon(action_bar, BUTTON_ID_DOWN, bitmap_icon_down);
   action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, bitmap_icon_more);
 }
+
 
 void setup_complete_set_view() {
   select_text_layer(NULL);
@@ -121,3 +139,4 @@ void session_window_destroy() {
 Window *session_window_get_window() {
   return session_window;
 }
+

@@ -1,3 +1,4 @@
+#include <pebble.h>
 #pragma once
 
 #define FONT_HEADER FONT_KEY_GOTHIC_24_BOLD
@@ -28,3 +29,4 @@ void session_window_update_name(char* name);
 void session_window_update_set(int set);
 void session_window_update_rep(int rep);
 void session_window_update_weight(int weight);
+void session_window_start_set(bool start_now);

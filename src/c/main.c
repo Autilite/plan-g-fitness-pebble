@@ -12,6 +12,7 @@
 
 static Window *active_window;
 static Tuple *id_tuple, *name_tuple, *set_tuple, *rep_tuple, *weight_tuple, *timer_tuple;
+static AppTimer *timer;
 
 uint32_t id;
 char *name;
@@ -76,6 +77,11 @@ void decrease_weight_handler() {
   }
 }
 
+void notify_start_set_callback(void *data) {
+  session_window_start_set(true);
+  vibes_double_pulse();
+}
+
 static void inbox_received_callback(DictionaryIterator *iter, void *context) {
   // A new message has been successfully received
   id_tuple = dict_find(iter, MESSAGE_KEY_EXERCISE_ID);
@@ -85,8 +91,8 @@ static void inbox_received_callback(DictionaryIterator *iter, void *context) {
   weight_tuple = dict_find(iter, MESSAGE_KEY_EXERCISE_WEIGHT);
   timer_tuple = dict_find(iter, MESSAGE_KEY_EXERCISE_REST_TIMER);
   
+  // Create new session window and set active if it does not already exist
   if (session_window_get_window() == NULL){
-    // Create new session window and set active
     session_window_create((struct SessionClickHandler) {
       .incr_rep = increase_rep_handler,
       .decr_rep = decrease_rep_handler,
@@ -102,16 +108,36 @@ static void inbox_received_callback(DictionaryIterator *iter, void *context) {
     setup_window_destroy();
   }
   
-  id = id_tuple->value->uint32;
-  name = name_tuple->value->cstring;
-  set = set_tuple->value->int32;
-  rep = rep_tuple->value->int32;
-  weight = weight_tuple->value->int32;
+  // Check if all the exercise data is received
+  if (id_tuple && name_tuple && set_tuple && rep_tuple && weight_tuple) {
+    id = id_tuple->value->uint32;
+    name = name_tuple->value->cstring;
+    set = set_tuple->value->int32;
+    rep = rep_tuple->value->int32;
+    weight = weight_tuple->value->int32;
+
+    APP_LOG(APP_LOG_LEVEL_INFO, "Received id: %d, name: %s, set: %d, rep: %d, weight: %d",
+            (int) id, name, (int) set, (int) rep, (int) weight);
+
+    session_window_update_view(name, set, rep, weight);
+  }
   
-  APP_LOG(APP_LOG_LEVEL_INFO, "Received id: %d, name: %s, set: %d, rep: %d, weight: %d",
-          (int) id, name, (int) set, (int) rep, (int) weight);
-  
-  session_window_update_view(name, set, rep, weight);
+  if (timer_tuple) {
+    uint32_t rest_time_ms = timer_tuple->value->uint32;
+    
+    if (rest_time_ms > 0) {
+      if (!app_timer_reschedule(timer, rest_time_ms)) {
+        timer = app_timer_register(rest_time_ms, notify_start_set_callback, NULL);
+        APP_LOG(APP_LOG_LEVEL_INFO, "Created new timer: %d milliseconds", (int) rest_time_ms);
+      } else {
+        APP_LOG(APP_LOG_LEVEL_INFO, "Rescheduled timer: %d milliseconds", (int) rest_time_ms);
+      }
+      
+      // We just received a new timer. This could signal that the previous set has been completed
+      // so clear the text that says to start the next set
+      session_window_start_set(false);
+    }
+  }
 }
 
 // Request the session data from the phone

@@ -1,3 +1,4 @@
+#include <pebble.h>
 #pragma once
 
 #define SELECT_EXERCISE "Start a program and select an exercise on your Android phone"

@@ -1,4 +1,3 @@
-#include <pebble.h>
 #include "setup_window.h"
 
 Window *setup_window;

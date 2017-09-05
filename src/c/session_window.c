@@ -1,9 +1,8 @@
-#include <pebble.h>
 #include "session_window.h"
 
 Window *session_window;
 ActionBarLayer *action_bar;
-TextLayer *name_text_layer, *set_text_layer, *rep_text_layer, *weight_text_layer;
+TextLayer *name_text_layer, *set_text_layer, *rep_text_layer, *weight_text_layer, *timer_text_layer;
 
 GBitmap *bitmap_icon_up, *bitmap_icon_down, *bitmap_icon_more, *bitmap_icon_check, *bitmap_icon_dismiss;
 
@@ -51,6 +50,14 @@ void session_window_update_weight(int weight) {
   snprintf(weight_string, sizeof(weight_string), "Weight: %d", weight);
   
   text_layer_set_text(weight_text_layer, weight_string);
+}
+
+void session_window_start_set(bool start_now) {
+  if (start_now) {
+    text_layer_set_text(timer_text_layer, "Start set now!");
+  } else {
+    text_layer_set_text(timer_text_layer, NULL);
+  }
 }
 
 void complete_set_config_provider() {
@@ -112,11 +119,13 @@ void session_window_load(Window *window) {
   set_text_layer = init_text_layer(bounds, 65, FONT_ENTRY, GTextAlignmentCenter);
   rep_text_layer = init_text_layer(bounds, 85, FONT_ENTRY, GTextAlignmentCenter);
   weight_text_layer = init_text_layer(bounds, 105, FONT_ENTRY, GTextAlignmentCenter);
+  timer_text_layer = init_text_layer(bounds, 125, FONT_ENTRY, GTextAlignmentCenter);
   
   layer_add_child(window_layer, text_layer_get_layer(name_text_layer));
   layer_add_child(window_layer, text_layer_get_layer(set_text_layer));
   layer_add_child(window_layer, text_layer_get_layer(rep_text_layer));
   layer_add_child(window_layer, text_layer_get_layer(weight_text_layer));
+  layer_add_child(window_layer, text_layer_get_layer(timer_text_layer));
 
   // Create the action bar
   action_bar = action_bar_layer_create();
@@ -138,6 +147,7 @@ void session_window_unload(Window *window) {
   text_layer_destroy(set_text_layer);
   text_layer_destroy(rep_text_layer);
   text_layer_destroy(weight_text_layer);
+  text_layer_destroy(timer_text_layer);
   action_bar_layer_destroy(action_bar);
   gbitmap_destroy(bitmap_icon_up);
   gbitmap_destroy(bitmap_icon_down);

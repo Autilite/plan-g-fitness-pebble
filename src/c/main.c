@@ -77,6 +77,44 @@ void decrease_weight_handler() {
   }
 }
 
+static void send_request_select_previous_exercise() {
+  DictionaryIterator *req;
+
+  AppMessageResult result = app_message_outbox_begin(&req);
+  if (result == APP_MSG_OK) {
+    // Prepare the dict
+    int value = 0;
+    dict_write_int(req, MESSAGE_KEY_REQUEST_CHANGE_PREVIOUS_EXERCISE, &value, sizeof(int), true);
+    
+    // Send the message
+    result = app_message_outbox_send();
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the outbox: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox: %d", (int) result);
+  }
+}
+
+static void send_request_select_next_exercise() {
+  DictionaryIterator *req;
+
+  AppMessageResult result = app_message_outbox_begin(&req);
+  if (result == APP_MSG_OK) {
+    // Prepare the dict
+    int value = 0;
+    dict_write_int(req, MESSAGE_KEY_REQUEST_CHANGE_NEXT_EXERCISE, &value, sizeof(int), true);
+    
+    // Send the message
+    result = app_message_outbox_send();
+    if(result != APP_MSG_OK) {
+      APP_LOG(APP_LOG_LEVEL_ERROR, "Error sending the outbox: %d", (int)result);
+    }
+  } else {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Error preparing the outbox: %d", (int) result);
+  }
+}
+
 void notify_start_set_callback(void *data) {
   session_window_start_set(true);
   vibes_double_pulse();
@@ -98,7 +136,9 @@ static void inbox_received_callback(DictionaryIterator *iter, void *context) {
       .decr_rep = decrease_rep_handler,
       .incr_weight = increase_weight_handler,
       .decr_weight = decrease_weight_handler,
-      .complete_set = complete_set_handler
+      .complete_set = complete_set_handler,
+      .previous_exercise = send_request_select_previous_exercise,
+      .next_exercise = send_request_select_next_exercise
     });
     active_window = session_window_get_window();
     window_stack_push(active_window, true);

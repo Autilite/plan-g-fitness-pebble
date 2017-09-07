@@ -63,6 +63,9 @@ void session_window_start_set(bool start_now) {
 void complete_set_config_provider() {
   window_single_click_subscribe(BUTTON_ID_UP, click_handler.complete_set);
   window_single_click_subscribe(BUTTON_ID_SELECT, setup_select_rep_view);
+  
+  window_multi_click_subscribe(BUTTON_ID_UP, 2, 0, 0, true, click_handler.previous_exercise);
+  window_multi_click_subscribe(BUTTON_ID_DOWN, 2, 0, 0, true, click_handler.next_exercise);
 }
 
 void select_rep_config_provider() {

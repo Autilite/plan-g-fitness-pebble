@@ -8,11 +8,13 @@
 #ifndef SESSIONCLICKHANDLER_HEADER
 #define SESSIONCLICKHANDLER_HEADER
 struct SessionClickHandler {
-    ClickHandler complete_set;
-    ClickHandler incr_rep;
-    ClickHandler decr_rep;
-    ClickHandler incr_weight;
-    ClickHandler decr_weight;
+  ClickHandler complete_set;
+  ClickHandler incr_rep;
+  ClickHandler decr_rep;
+  ClickHandler incr_weight;
+  ClickHandler decr_weight;
+  ClickHandler previous_exercise;
+  ClickHandler next_exercise;
 };
 #endif
 

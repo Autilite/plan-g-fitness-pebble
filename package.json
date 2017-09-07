@@ -13,14 +13,16 @@
             "EXERCISE_REP",
             "EXERCISE_WEIGHT",
             "EXERCISE_REST_TIMER",
-            "REQUEST_DATA"
+            "REQUEST_DATA",
+            "REQUEST_CHANGE_PREVIOUS_EXERCISE",
+            "REQUEST_CHANGE_NEXT_EXERCISE"
         ],
         "projectType": "native",
         "resources": {
             "media": [
                 {
-                    "file": "images/icon_cross.png",
-                    "name": "ICON_CROSS",
+                    "file": "images/icon_up.png",
+                    "name": "ICON_UP",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
@@ -31,20 +33,20 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/icon_check.png",
-                    "name": "ICON_CHECK",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/icon_down.png",
                     "name": "ICON_DOWN",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/icon_up.png",
-                    "name": "ICON_UP",
+                    "file": "images/icon_cross.png",
+                    "name": "ICON_CROSS",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/icon_check.png",
+                    "name": "ICON_CHECK",
                     "targetPlatforms": null,
                     "type": "bitmap"
                 }

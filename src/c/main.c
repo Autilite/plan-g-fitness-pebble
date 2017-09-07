@@ -8,7 +8,7 @@
 
 #define MIN_WEIGHT 0
 #define MAX_WEIGHT 100000
-#define INCREMENT_WEIGHT 250
+#define INCREMENT_WEIGHT 25
 
 static Window *active_window;
 static Tuple *id_tuple, *name_tuple, *set_tuple, *rep_tuple, *weight_tuple, *timer_tuple;

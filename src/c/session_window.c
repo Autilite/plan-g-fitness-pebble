@@ -1,5 +1,7 @@
 #include "session_window.h"
 
+#define MULTI_CLICK_REPEAT_INTERVAL 200
+
 Window *session_window;
 ActionBarLayer *action_bar;
 StatusBarLayer *status_bar;
@@ -71,14 +73,18 @@ void complete_set_config_provider() {
 
 void select_rep_config_provider() {
   window_single_click_subscribe(BUTTON_ID_UP, click_handler.incr_rep);
+  window_single_repeating_click_subscribe(BUTTON_ID_UP, MULTI_CLICK_REPEAT_INTERVAL, click_handler.incr_rep);
   window_single_click_subscribe(BUTTON_ID_SELECT, setup_select_weight_view);
   window_single_click_subscribe(BUTTON_ID_DOWN, click_handler.decr_rep);
+  window_single_repeating_click_subscribe(BUTTON_ID_DOWN, MULTI_CLICK_REPEAT_INTERVAL, click_handler.decr_rep);
 }
 
 void select_weight_config_provider() {
   window_single_click_subscribe(BUTTON_ID_UP, click_handler.incr_weight);
+  window_single_repeating_click_subscribe(BUTTON_ID_UP, MULTI_CLICK_REPEAT_INTERVAL, click_handler.incr_weight);
   window_single_click_subscribe(BUTTON_ID_SELECT, setup_complete_set_view);
   window_single_click_subscribe(BUTTON_ID_DOWN, click_handler.decr_weight);
+  window_single_repeating_click_subscribe(BUTTON_ID_DOWN, MULTI_CLICK_REPEAT_INTERVAL, click_handler.decr_weight);
 }
 
 void setup_select_weight_view() {

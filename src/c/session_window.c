@@ -2,6 +2,7 @@
 
 Window *session_window;
 ActionBarLayer *action_bar;
+StatusBarLayer *status_bar;
 TextLayer *name_text_layer, *set_text_layer, *rep_text_layer, *weight_text_layer, *timer_text_layer;
 
 GBitmap *bitmap_icon_up, *bitmap_icon_down, *bitmap_icon_more, *bitmap_icon_check, *bitmap_icon_dismiss;
@@ -117,6 +118,14 @@ void session_window_load(Window *window) {
   Layer* window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
   
+  // Setup status bar
+  status_bar = status_bar_layer_create();
+  status_bar_layer_set_colors(status_bar, GColorWhite, GColorBlack);
+  int16_t width = bounds.size.w - ACTION_BAR_WIDTH;
+  GRect frame = GRect(0, 0, width, STATUS_BAR_LAYER_HEIGHT);
+  layer_set_frame(status_bar_layer_get_layer(status_bar), frame);
+  layer_add_child(window_layer, status_bar_layer_get_layer(status_bar));
+  
   // Create the session info text
   name_text_layer = init_text_layer(bounds, 35, FONT_HEADER, GTextAlignmentCenter);
   set_text_layer = init_text_layer(bounds, 65, FONT_ENTRY, GTextAlignmentCenter);
@@ -146,6 +155,7 @@ void session_window_load(Window *window) {
 }
 
 void session_window_unload(Window *window) {
+  status_bar_layer_destroy(status_bar);
   text_layer_destroy(name_text_layer);
   text_layer_destroy(set_text_layer);
   text_layer_destroy(rep_text_layer);
